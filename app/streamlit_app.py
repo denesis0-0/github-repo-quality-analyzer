@@ -148,6 +148,15 @@ if analyze_button:
         st.dataframe(readme_table, use_container_width=True)
         st.metric("README length", readme_result["readme_length"])
 
+        st.subheader("Detected technologies")
+
+        technologies = readme_result["technologies"]
+
+        if technologies:
+            st.write(", ".join(technologies))
+        else:
+            st.info("No technologies detected in README.")
+
         st.subheader("Repository statistics")
 
         col1, col2, col3 = st.columns(3)

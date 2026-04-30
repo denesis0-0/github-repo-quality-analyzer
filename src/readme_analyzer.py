@@ -1,4 +1,5 @@
 from pathlib import Path
+from src.tech_extractor import extract_technologies
 
 
 README_FILENAMES = {"readme.md", "readme.rst", "readme.txt"}
@@ -85,6 +86,8 @@ def analyze_readme(repo_path: str | Path) -> dict:
         for marker in ["![", "<img", ".png", ".jpg", ".jpeg", ".gif"]
     )
 
+    technologies = extract_technologies(text)
+
     return {
         "readme_length": len(text),
         "has_readme_description": has_description,
@@ -93,4 +96,6 @@ def analyze_readme(repo_path: str | Path) -> dict:
         "has_readme_technologies": has_technologies,
         "has_readme_results": has_results,
         "has_readme_images": has_images,
+        "technologies": technologies,
+        "technology_count": len(technologies),
     }
