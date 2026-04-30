@@ -11,10 +11,11 @@ def calculate_structure_score(scan_result: dict) -> int:
     return round(sum(checks) / len(checks) * 100)
 
 
-def calculate_reproducibility_score(scan_result: dict) -> int:
+def calculate_reproducibility_score(scan_result: dict, readme_result: dict) -> int:
     checks = [
         scan_result["has_requirements"] or scan_result["has_pyproject"],
-        scan_result["has_readme"],
+        readme_result["has_readme_installation"],
+        readme_result["has_readme_usage"],
         scan_result["python_file_count"] > 0,
     ]
 
@@ -39,15 +40,31 @@ def calculate_code_score(scan_result: dict) -> int:
     return min(score, 100)
 
 
-def calculate_scores(scan_result: dict) -> dict:
+def calculate_documentation_score(readme_result: dict) -> int:
+    checks = [
+        readme_result["readme_length"] >= 500,
+        readme_result["has_readme_description"],
+        readme_result["has_readme_installation"],
+        readme_result["has_readme_usage"],
+        readme_result["has_readme_technologies"],
+        readme_result["has_readme_results"],
+        readme_result["has_readme_images"],
+    ]
+
+    return round(sum(checks) / len(checks) * 100)
+
+
+def calculate_scores(scan_result: dict, readme_result: dict) -> dict:
     structure_score = calculate_structure_score(scan_result)
-    reproducibility_score = calculate_reproducibility_score(scan_result)
+    reproducibility_score = calculate_reproducibility_score(scan_result, readme_result)
     code_score = calculate_code_score(scan_result)
+    documentation_score = calculate_documentation_score(readme_result)
 
     overall_score = round(
-        0.4 * structure_score
-        + 0.3 * reproducibility_score
-        + 0.3 * code_score
+        0.25 * structure_score
+        + 0.25 * reproducibility_score
+        + 0.25 * code_score
+        + 0.25 * documentation_score
     )
 
     return {
@@ -55,4 +72,5 @@ def calculate_scores(scan_result: dict) -> dict:
         "structure": structure_score,
         "reproducibility": reproducibility_score,
         "code": code_score,
+        "documentation": documentation_score,
     }

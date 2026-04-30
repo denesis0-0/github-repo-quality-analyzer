@@ -63,6 +63,7 @@ if analyze_button:
 
         scores = report["scores"]
         scan_result = report["scan_result"]
+        readme_result = report["readme_result"]
         recommendations = report["recommendations"]
 
         st.subheader("Overall score")
@@ -73,6 +74,11 @@ if analyze_button:
 
         score_table = pd.DataFrame(
             [
+                {
+                    "Category": "Documentation",
+                    "Score": scores["documentation"],
+                    "Status": score_status(scores["documentation"]),
+                },
                 {
                     "Category": "Structure",
                     "Score": scores["structure"],
@@ -117,6 +123,30 @@ if analyze_button:
         )
 
         st.dataframe(check_table, use_container_width=True)
+
+        st.subheader("README checks")
+
+        readme_checks = {
+            "Description": readme_result["has_readme_description"],
+            "Installation": readme_result["has_readme_installation"],
+            "Usage": readme_result["has_readme_usage"],
+            "Technologies": readme_result["has_readme_technologies"],
+            "Results / Metrics": readme_result["has_readme_results"],
+            "Images / Screenshots": readme_result["has_readme_images"],
+        }
+
+        readme_table = pd.DataFrame(
+            [
+                {
+                    "Check": check_name,
+                    "Passed": "Yes" if passed else "No",
+                }
+                for check_name, passed in readme_checks.items()
+            ]
+        )
+
+        st.dataframe(readme_table, use_container_width=True)
+        st.metric("README length", readme_result["readme_length"])
 
         st.subheader("Repository statistics")
 
