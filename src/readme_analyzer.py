@@ -1,5 +1,7 @@
 from pathlib import Path
+
 from src.tech_extractor import extract_technologies
+from src.readme_nlp import calculate_readme_nlp_score
 
 
 README_FILENAMES = {"readme.md", "readme.rst", "readme.txt"}
@@ -88,6 +90,8 @@ def analyze_readme(repo_path: str | Path) -> dict:
 
     technologies = extract_technologies(text)
 
+    nlp_readme_score = calculate_readme_nlp_score(text)
+
     return {
         "readme_length": len(text),
         "has_readme_description": has_description,
@@ -98,4 +102,5 @@ def analyze_readme(repo_path: str | Path) -> dict:
         "has_readme_images": has_images,
         "technologies": technologies,
         "technology_count": len(technologies),
+        "nlp_readme_score": nlp_readme_score,
     }

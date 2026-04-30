@@ -40,3 +40,4 @@ def test_analyze_readme_detects_sections(tmp_path: Path):
     assert result["has_readme_images"] is True
     assert "Python" in result["technologies"]
     assert "Streamlit" in result["technologies"]
+    assert 0 <= result["nlp_readme_score"] <= 100

@@ -148,6 +148,8 @@ if analyze_button:
         st.dataframe(readme_table, use_container_width=True)
         st.metric("README length", readme_result["readme_length"])
 
+        st.metric("NLP README score", f"{readme_result['nlp_readme_score']}/100")
+
         st.subheader("Detected technologies")
 
         technologies = readme_result["technologies"]

@@ -51,7 +51,10 @@ def calculate_documentation_score(readme_result: dict) -> int:
         readme_result["has_readme_images"],
     ]
 
-    return round(sum(checks) / len(checks) * 100)
+    rule_based_score = round(sum(checks) / len(checks) * 100)
+    nlp_score = readme_result["nlp_readme_score"]
+
+    return round(0.7 * rule_based_score + 0.3 * nlp_score)
 
 
 def calculate_scores(scan_result: dict, readme_result: dict) -> dict:

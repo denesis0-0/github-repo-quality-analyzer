@@ -26,6 +26,7 @@ def test_calculate_scores_returns_expected_keys():
         "has_readme_images": False,
         "technologies": ["Python", "Streamlit"],
         "technology_count": 2,
+        "nlp_readme_score": 70,
     }
 
     scores = calculate_scores(scan_result, readme_result)
