@@ -209,3 +209,4 @@ github-repo-quality-analyzer/
 - добавить бейджи и визуализацию score;
 - добавить Dockerfile;
 - задеплоить приложение.
+
